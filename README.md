@@ -24,7 +24,7 @@ El proyecto Wheels será una plataforma revolucionaria de movilización urbana q
 - Medir y evaluar el impacto ambiental y social: Para evaluar la efectividad del proyecto, es importante medir y evaluar el impacto ambiental y social generado por el uso compartido de vehículos en la plataforma. Esto implica realizar análisis de datos, recopilar retroalimentación de los usuarios y realizar estudios comparativos con respecto a otros modos de transporte.
 
 ## Diseño de base de datos
-![bd_wheels](https://github.com/Kevin2606/wheels_project/assets/54305330/e0113fb9-62dd-43b7-9e56-cc6c61d5df61)
+![Diagrama BD](https://github.com/Kevin2606/wheels_project/assets/54305330/ae075c5a-c366-4ae5-9ab3-6e12916f014d)
 
 
 ## Autor
