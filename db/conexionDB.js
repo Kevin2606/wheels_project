@@ -11,7 +11,6 @@ const conexionDB = () => {
             message: "Error en la conexión a la base de datos"
         });
     }
-    console.log(conDB)
     return conDB;
 };
 

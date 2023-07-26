@@ -76,14 +76,25 @@ export class Usuario {
     }
 
     guardar() {
-        conexionDB.query(
-            "INSERT INTO usuarios SET ?", this, (err, result) => {
+        return conexionDB().query(
+            "INSERT INTO usuarios SET ?", this, (err: any, result: any) => {
                 if (err) {
                     console.log(err)
                     throw { status: 500, message: "Error al guardar el usuario" }
                 }
-                return result
+                return result;
             }
-        )
+        ).values;
+    }
+    mostrar(){
+        const [rows, fields] = conexionDB().promise().execute("SELECT * FROM usuarios");
+        return  rows;
+    }
+    get all(){
+        return (async()=>{
+          const [rows, fields] = await conexionDB().promise().execute(/*sql*/`
+          SELECT * FROM usuarios`);
+          return [rows, fields];
+        })();
     }
 }

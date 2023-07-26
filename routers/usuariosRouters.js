@@ -4,13 +4,14 @@ import usuarioMiddleware from '../middlewares/usuarioMiddleware.js';
 
 const router = Router();
 
-router.get('/', conexionDB, (req, res) => { 
-    res.send('GET request to the homepage');
+router.get('/', usuarioMiddleware, (req, res) => {
+    res.json(req.instanceData.all);
 });
 
 router.post('/', usuarioMiddleware, (req, res) => {
-    res.send(req.instanceData.guardar());
-} );
+    res.json(req.instanceData.guardar());
+});
+
 
 /*
 
