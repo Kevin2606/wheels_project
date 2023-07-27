@@ -128,13 +128,28 @@ CREATE TABLE viajes(
 INSERT INTO paises(nombre) VALUES('Colombia');
 INSERT INTO departamentos(nombre, id_pais) VALUES('Santander', 1);
 INSERT INTO municipios(nombre, id_departamento) VALUES('Bucaramanga', 1);
-INSERT INTO generos(nombre) VALUES('Masculino');
-INSERT INTO generos(nombre) VALUES('Femenino');
-INSERT INTO generos(nombre) VALUES('Otro');
-
-INSERT INTO tipos_documentos(nombre) VALUES('Cédula de ciudadanía');
-INSERT INTO tipos_documentos(nombre) VALUES('Cédula de extranjería');
-INSERT INTO tipos_documentos(nombre) VALUES('Pasaporte');
-
+INSERT INTO generos(nombre) VALUES('Masculino'), ('Femenino'), ('Otro');
+INSERT INTO tipos_documentos(nombre) VALUES
+('Cédula de ciudadanía'),
+('Tarjeta de identidad'),
+('Registro civil'),
+('Cédula de extranjería'),
+('Pasaporte');
 INSERT INTO indicativo_paises(nombre) VALUES('+57');
+INSERT INTO tipos_vehiculos(nombre) VALUES ('Carro'), ('Moto');
+INSERT INTO marcas_vehiculos(nombre) VALUES
+("Mazda"),
+("Chetvrole"),
+("Suzuki"),
+("KTM"),
+("Honda"),
+("Yamaha"),
+("Audi"),
+("BMW");
 
+INSERT INTO tipos_combustible(nombre) VALUES
+("Gasolina"),
+("Diesel"),
+("Gas"),
+("Eléctrico"),
+("Híbrido");
