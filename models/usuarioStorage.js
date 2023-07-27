@@ -33,15 +33,23 @@ export class Usuario {
         }).values;
     }
     mostrar() {
-        const [rows, fields] = conexionDB().promise().execute("SELECT * FROM usuarios");
-        return rows;
+        return __awaiter(this, void 0, void 0, function* () {
+            const [rows, fields] = yield conexionDB().promise().execute(`SELECT * FROM usuarios`);
+            return rows;
+        });
     }
-    get all() {
-        return (() => __awaiter(this, void 0, void 0, function* () {
-            const [rows, fields] = yield conexionDB().promise().execute(/*sql*/ `
-          SELECT * FROM usuarios`);
-            return [rows, fields];
-        }))();
+    mostrarPorId(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const [rows, fields] = yield conexionDB().promise().execute(`SELECT * FROM usuarios WHERE id = ${id}`);
+            return rows[0];
+        });
+    }
+    actualizar(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log(this);
+            const [rows, fields] = yield conexionDB().promise().execute(`UPDATE usuarios SET ? WHERE id = ${id}`, this);
+            return rows[0];
+        });
     }
 }
 __decorate([

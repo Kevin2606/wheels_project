@@ -86,15 +86,19 @@ export class Usuario {
             }
         ).values;
     }
-    mostrar(){
-        const [rows, fields] = conexionDB().promise().execute("SELECT * FROM usuarios");
+    async mostrar(){
+        const [rows, fields] = await conexionDB().promise().execute(`SELECT * FROM usuarios`);
         return  rows;
     }
-    get all(){
-        return (async()=>{
-          const [rows, fields] = await conexionDB().promise().execute(/*sql*/`
-          SELECT * FROM usuarios`);
-          return [rows, fields];
-        })();
+
+    async mostrarPorId(id: number){
+        const [rows, fields] = await conexionDB().promise().execute(`SELECT * FROM usuarios WHERE id = ${id}`);
+        return  rows[0];
+    }
+
+    async actualizar(id: number){
+        console.log(this)
+        const [rows, fields] = await conexionDB().promise().execute(`UPDATE usuarios SET ? WHERE id = ${id}`, this);
+        return  rows[0];
     }
 }
