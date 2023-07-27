@@ -1,7 +1,7 @@
 import { Expose, Type, Transform } from 'class-transformer';
 import { IsDefined, MaxLength, MinLength, IsNumber, IsEmail, IsString, IsDateString, IsBoolean, Allow, IsNotEmpty } from 'class-validator';
-import conexionDB  from '../db/conexionDB.js';
-export class Usuario {
+import { Consultas } from './consultas.js';
+export class Usuario extends Consultas {
 /*
     id INT NOT NULL AUTO_INCREMENT,
     nombre VARCHAR(50) NOT NULL,
@@ -72,42 +72,7 @@ export class Usuario {
     propietario: boolean;
 
     constructor(data: Partial<Usuario>) {
+        super();
         Object.assign(this, data);
-    }
-
-    guardar() {
-        return conexionDB().query(
-            "INSERT INTO usuarios SET ?", this, (err: any, result: any) => {
-                if (err) {
-                    console.log(err)
-                    throw { status: 500, message: "Error al guardar el usuario" }
-                }
-                return result;
-            }
-        ).values;
-    }
-    async mostrar(){
-        const [rows, fields] = await conexionDB().promise().execute(`SELECT * FROM usuarios`);
-        return  rows;
-    }
-
-    async mostrarPorId(id: number){
-        const [rows, fields] = await conexionDB().promise().execute(`SELECT * FROM usuarios WHERE id = ${id}`);
-        return  rows[0];
-    }
-
-    // TODO: Corregir el metodo actualizar para que valide las llaves foraneas
-    async actualizar(id: number){
-        const propiedadesNoUndefined = [];
-        propiedadesNoUndefined.push(...Object.getOwnPropertyNames(this).filter(propiedad => this[propiedad] != undefined))
-        propiedadesNoUndefined.forEach( async propiedad => {
-            return await conexionDB().promise().execute(`UPDATE usuarios SET ${propiedad} = ? WHERE id = ${id}`, [this[propiedad]])
-        });
-        return {message: "Usuario actualizado correctamente"};
-    }
-
-    async eliminar(id: number){
-        await conexionDB().promise().execute(`DELETE FROM usuarios WHERE id = ${id}`)
-        return {message: "Usuario eliminado correctamente"}
     }
 }
