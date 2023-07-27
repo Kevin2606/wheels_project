@@ -1,4 +1,4 @@
--- Active: 1687979892591@@localhost@3306@wheels_db
+-- Active: 1690333364576@@localhost@3306@wheels_db
 CREATE DATABASE IF NOT EXISTS wheels_db;
 USE wheels_db;
 

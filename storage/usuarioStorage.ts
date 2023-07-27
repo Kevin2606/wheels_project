@@ -1,5 +1,5 @@
 import { Expose, Type, Transform } from 'class-transformer';
-import { IsDefined, MaxLength, MinLength, IsNumber, IsEmail, IsString, IsDateString, IsBoolean } from 'class-validator';
+import { IsDefined, MaxLength, MinLength, IsNumber, IsEmail, IsString, IsDateString, IsBoolean, Allow, IsNotEmpty } from 'class-validator';
 import conexionDB  from '../db/conexionDB.js';
 export class Usuario {
 /*
@@ -17,58 +17,58 @@ export class Usuario {
     propietario BOOLEAN NOT NULL,
 */
     @Expose({ name: 'nombre' })
-    @IsDefined({message: ()=>{throw {status:422, message: "Parametro obligatorio: nombre"}}})
     @IsString({message: ()=> { throw {status:406, message: "El formato del parametro es incorrecto: nombre"}}})
+    @IsNotEmpty({message: ()=>{throw {status:422, message: "Parametro obligatorio: nombre"}}})
     nombre: string;
 
     @Expose({ name: 'apellido' })
-    @IsDefined({message: ()=>{throw {status:422, message: "Parametro obligatorio: apellido"}}})
     @IsString({message: ()=> { throw {status:406, message: "El formato del parametro es incorrecto: apellido"}}})
+    @IsNotEmpty({message: ()=>{throw {status:422, message: "Parametro obligatorio: apellido"}}})
     apellido: string;
 
     @Expose({ name: 'genero' })
-    @IsDefined({message: ()=>{throw {status:422, message: "Parametro obligatorio: genero"}}})
     @IsNumber({}, {message: ()=> { throw {status:406, message: "El formato del parametro es incorrecto: genero"}}})
+    @IsNotEmpty({message: ()=>{throw {status:422, message: "Parametro obligatorio: genero"}}})
     id_genero: number;
 
     @Expose({ name: 'tipo_documento' })
-    @IsDefined({message: ()=>{throw {status:422, message: "Parametro obligatorio: tipo_documento"}}})
     @IsNumber({}, {message: ()=> { throw {status:406, message: "El formato del parametro es incorrecto: tipo_documento"}}})
+    @IsNotEmpty({message: ()=>{throw {status:422, message: "Parametro obligatorio: tipo_documento"}}})
     id_tipo_documento: number;
 
     @Expose({ name: 'numero_documento' })
-    @IsDefined({message: ()=>{throw {status:422, message: "Parametro obligatorio: numero_documento"}}})
     @IsString({message: ()=> { throw {status:406, message: "El formato del parametro es incorrecto: numero_documento"}}})
+    @IsNotEmpty({message: ()=>{throw {status:422, message: "Parametro obligatorio: numero_documento"}}})
     numero_documento: string;
 
     @Expose({ name: 'fecha_nacimiento' })
-    @IsDefined({message: ()=>{throw {status:422, message: "Parametro obligatorio: fecha_nacimiento"}}})
     @IsDateString({}, {message: ()=> { throw {status:406, message: "El formato del parametro es incorrecto: fecha_nacimiento"}}})
+    @IsNotEmpty({message: ()=>{throw {status:422, message: "Parametro obligatorio: fecha_nacimiento"}}})
     fecha_nacimiento: Date;//yyy-MM-dd
 
     @Expose({ name: 'correo_electronico' })
-    @IsDefined({message: ()=>{throw {status:422, message: "Parametro obligatorio: correo_electronico"}}})
     @IsEmail({}, {message: ()=> { throw {status:406, message: "El formato del parametro es incorrecto: correo_electronico"}}})
+    @IsNotEmpty({message: ()=>{throw {status:422, message: "Parametro obligatorio: correo_electronico"}}})
     correo_electronico: string;
 
     @Expose({ name: 'indicativo_pais' })
-    @IsDefined({message: ()=>{throw {status:422, message: "Parametro obligatorio: indicativo_pais"}}})
     @IsNumber({}, {message: ()=> { throw {status:406, message: "El formato del parametro es incorrecto: indicativo_pais"}}})
+    @IsNotEmpty({message: ()=>{throw {status:422, message: "Parametro obligatorio: indicativo_pais"}}})
     id_indicativo_pais: number;
 
     @Expose({ name: 'numero_celular' })
-    @IsDefined({message: ()=>{throw {status:422, message: "Parametro obligatorio: numero_celular"}}})
     @IsString({message: ()=> { throw {status:406, message: "El formato del parametro es incorrecto: numero_celular"}}})
+    @IsNotEmpty({message: ()=>{throw {status:422, message: "Parametro obligatorio: numero_celular"}}})
     numero_celular: string;
 
     @Expose({ name: 'conductor' })
-    @IsDefined({message: ()=>{throw {status:422, message: "Parametro obligatorio: conductor"}}})
     @IsBoolean({message: ()=> { throw {status:406, message: "El formato del parametro es incorrecto: conductor"}}})
+    @IsNotEmpty({message: ()=>{throw {status:422, message: "Parametro obligatorio: conductor"}}})
     conductor: boolean;
 
     @Expose({ name: 'propietario' })
-    @IsDefined({message: ()=>{throw {status:422, message: "Parametro obligatorio: propietario"}}})
     @IsBoolean({message: ()=> { throw {status:406, message: "El formato del parametro es incorrecto: propietario"}}})
+    @IsNotEmpty({message: ()=>{throw {status:422, message: "Parametro obligatorio: propietario"}}})
     propietario: boolean;
 
     constructor(data: Partial<Usuario>) {
@@ -96,9 +96,18 @@ export class Usuario {
         return  rows[0];
     }
 
+    // TODO: Corregir el metodo actualizar para que valide las llaves foraneas
     async actualizar(id: number){
-        console.log(this)
-        const [rows, fields] = await conexionDB().promise().execute(`UPDATE usuarios SET ? WHERE id = ${id}`, this);
-        return  rows[0];
+        const propiedadesNoUndefined = [];
+        propiedadesNoUndefined.push(...Object.getOwnPropertyNames(this).filter(propiedad => this[propiedad] != undefined))
+        propiedadesNoUndefined.forEach( async propiedad => {
+            return await conexionDB().promise().execute(`UPDATE usuarios SET ${propiedad} = ? WHERE id = ${id}`, [this[propiedad]])
+        });
+        return {message: "Usuario actualizado correctamente"};
+    }
+
+    async eliminar(id: number){
+        await conexionDB().promise().execute(`DELETE FROM usuarios WHERE id = ${id}`)
+        return {message: "Usuario eliminado correctamente"}
     }
 }
