@@ -1,6 +1,6 @@
 import { Expose, Type, Transform } from 'class-transformer';
 import { IsDefined, MaxLength, MinLength, IsNumber, IsEmail, IsString, IsDateString, IsBoolean, Allow, IsNotEmpty } from 'class-validator';
-import { Consultas } from './consultas.js';
+import { Consultas } from '../helpers/consultas.js';
 export class Usuario extends Consultas {
 /*
     id INT NOT NULL AUTO_INCREMENT,
