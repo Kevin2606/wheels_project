@@ -9,16 +9,15 @@ import { UsuarioConductor } from '../models/usuarioConductorStorage.js';
 const proxyUser = express();
 
 const nameTabla = {
-    "usuarios": [Usuario, "usuarios"],
-    "usuarios-conductores": [UsuarioConductor, "usuarios_conductores"],
-    "vehiculos": [Vehiculo, "vehiculos"]
+    "usuarios": Usuario,
+    "usuarios-conductores": UsuarioConductor,
+    "vehiculos": Vehiculo
 }
 
 proxyUser.use(async (req,res,next)=>{
     try {
-        let instanceData = plainToInstance(nameTabla[req.payloadJWT.createdByTabla][0], (req.method == 'POST' || req.method == 'PUT') ? req.body : {}, { excludeExtraneousValues: true });
+        let instanceData = plainToInstance(nameTabla[req.payloadJWT.createdByTabla], (req.method == 'POST' || req.method == 'PUT') ? req.body : {}, { excludeExtraneousValues: true });
         (req.method == 'POST') ? await validate(instanceData): await validate(instanceData, { skipMissingProperties: true });
-        req.nameTabla = nameTabla[req.payloadJWT.createdByTabla][1]
         req.instanceData = instanceData;
         next();
     } catch (err) {
