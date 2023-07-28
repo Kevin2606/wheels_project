@@ -27,7 +27,7 @@ const validarToken = async (req, res, next) => {
             authorization,
             encoder.encode(process.env.JWT_SECRET)
         );
-        if (!(jwtData.payload.createdByTabla === req.baseUrl.split('/')[2])) return res.status(401).send('Token no permitido para esta tabla');
+        //if (!(jwtData.payload.createdByTabla === req.baseUrl.split('/')[2])) return res.status(401).send('Token no permitido para esta tabla');
         req.payloadJWT = jwtData.payload; 
         next();
     } catch (error) {

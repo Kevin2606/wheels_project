@@ -6,7 +6,6 @@ import { Usuario } from "../models/usuarioStorage.js"
 import { Vehiculo } from "../models/vehiculoStorage.js"
 import { UsuarioConductor } from '../models/usuarioConductorStorage.js';
 
-
 const proxyUser = express();
 
 const nameTabla = {
@@ -19,7 +18,7 @@ proxyUser.use(async (req,res,next)=>{
     try {
         let instanceData = plainToInstance(nameTabla[req.payloadJWT.createdByTabla][0], (req.method == 'POST' || req.method == 'PUT') ? req.body : {}, { excludeExtraneousValues: true });
         (req.method == 'POST') ? await validate(instanceData): await validate(instanceData, { skipMissingProperties: true });
-        instanceData.tablaBDPadre = nameTabla[req.payloadJWT.createdByTabla][1]
+        req.nameTabla = nameTabla[req.payloadJWT.createdByTabla][1]
         req.instanceData = instanceData;
         next();
     } catch (err) {
