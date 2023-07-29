@@ -5,13 +5,17 @@ import {validate} from 'class-validator';
 import { Usuario } from "../models/usuarioStorage.js"
 import { Vehiculo } from "../models/vehiculoStorage.js"
 import { UsuarioConductor } from '../models/usuarioConductorStorage.js';
+import { Ruta } from '../models/rutaStorage.js';
+import { Viaje } from '../models/viajeStorage.js';
 
 const proxyUser = express();
 
 const nameTabla = {
     "usuarios": Usuario,
     "usuarios-conductores": UsuarioConductor,
-    "vehiculos": Vehiculo
+    "vehiculos": Vehiculo,
+    "rutas": Ruta,
+    "viajes": Viaje
 }
 
 proxyUser.use(async (req,res,next)=>{

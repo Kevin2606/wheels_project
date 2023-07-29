@@ -5,29 +5,31 @@ export class Consultas {
         const diccNombres = {
             Usuario: 'usuarios',
             UsuarioConductor: 'usuarios_conductores',
-            Vehiculo: 'vehiculos'
+            Vehiculo: 'vehiculos',
+            Ruta: 'rutas',
+            Viaje: 'viajes'
         }
         return diccNombres[this.constructor.name];
     }
 
     guardar() {
         return conexionDB().query(
-            `INSERT INTO ${this.diccNombres()} SET ?`, this, (err, result) => {
+            `INSERT INTO ${this.nomTabla()} SET ?`, this, (err, result) => {
                 if (err) {
                     console.log(err)
-                    throw { status: 500, message: "Error al guarda" }
+                    throw { status: 500, message: "Error al guardar" }
                 }
                 return result;
             }
         ).values;
     }
     async mostrar(){
-        const [rows, fields] = await conexionDB().promise().execute(`SELECT * FROM ${this.diccNombres()}`);
+        const [rows, fields] = await conexionDB().promise().execute(`SELECT * FROM ${this.nomTabla()}`);
         return  rows;
     }
 
     async mostrarPorId(id){ 
-        const [rows, fields] = await conexionDB().promise().execute(`SELECT * FROM ${this.diccNombres()} WHERE id = ${id}`);
+        const [rows, fields] = await conexionDB().promise().execute(`SELECT * FROM ${this.nomTabla()} WHERE id = ${id}`);
         return  rows[0];
     }
 
@@ -36,13 +38,13 @@ export class Consultas {
         const propiedadesNoUndefined = [];
         propiedadesNoUndefined.push(...Object.getOwnPropertyNames(this).filter(propiedad => this[propiedad] != undefined))
         propiedadesNoUndefined.forEach( async propiedad => {
-            return await conexionDB().promise().execute(`UPDATE ${this.diccNombres()} SET ${propiedad} = ? WHERE id = ${id}`, [this[propiedad]])
+            return await conexionDB().promise().execute(`UPDATE ${this.nomTabla()} SET ${propiedad} = ? WHERE id = ${id}`, [this[propiedad]])
         });
         return {message: "Actualizado correctamente"};
     }
 
     async eliminar(id){
-        await conexionDB().promise().execute(`DELETE FROM ${this.diccNombres()} WHERE id = ${id}`)
+        await conexionDB().promise().execute(`DELETE FROM ${this.nomTabla()} WHERE id = ${id}`)
         return {message: "Eliminado correctamente"}
     }
 }

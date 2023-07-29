@@ -3,7 +3,9 @@ import { SignJWT, jwtVerify } from "jose"
 const tabla = {
     "usuarios": "usuarios",
     "usuarios-conductores": "usuarios-conductores",
-    "vehiculos": "vehiculos"
+    "vehiculos": "vehiculos",
+    "rutas": "rutas",
+    "viajes": "viajes"
 }
 
 const crearToken = async (req, res) => {
@@ -28,6 +30,7 @@ const validarToken = async (req, res, next) => {
             encoder.encode(process.env.JWT_SECRET)
         );
         if (!(jwtData.payload.createdByTabla === req.baseUrl.split('/')[2])) return res.status(401).send('Token no permitido para esta tabla');
+        req.payloadJWT = jwtData.payload; 
         next();
     } catch (error) {
         res.status(401).send('No autorizado');

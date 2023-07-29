@@ -13,6 +13,8 @@ app.get('/api/token', crearToken);
 app.use('/api/usuarios', validarToken, generalRouters);
 app.use('/api/vehiculos', validarToken, generalRouters);
 app.use('/api/usuarios-conductores', validarToken,  generalRouters);
+app.use('/api/rutas', validarToken, generalRouters);
+app.use('/api/viajes', validarToken, generalRouters);
 
 const SERVER_CONFIG = JSON.parse(process.env.SERVER_CONFIG);
 app.listen(SERVER_CONFIG.port, () => {
