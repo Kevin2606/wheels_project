@@ -1,22 +1,14 @@
 import { SignJWT, jwtVerify } from "jose"
-
-const tabla = {
-    "usuarios": "usuarios",
-    "usuarios-conductores": "usuarios-conductores",
-    "vehiculos": "vehiculos",
-    "rutas": "rutas",
-    "viajes": "viajes"
-}
+import { tablaJWT } from "../helpers/helper.js";
 
 const crearToken = async (req, res) => {
-    if (tabla[req.query.tabla] === undefined) return res.status(406).send('No se puede generar el token, especifique una tabla válida')
+    if (tablaJWT[req.query.tabla] === undefined) return res.status(406).send('No se puede generar el token, especifique una tabla válida')
     const encoder = new TextEncoder();
-    const jwtConstructor = await new SignJWT({ createdByTabla: tabla[req.query.tabla] })
+    const jwtConstructor = await new SignJWT({ createdByTabla: tablaJWT[req.query.tabla] })
         .setProtectedHeader({ alg: 'HS256', typ: 'JWT' })
         .setIssuedAt()
         .setExpirationTime('1h')
         .sign(encoder.encode(process.env.JWT_SECRET));
-
     res.send(jwtConstructor);
 }
 
