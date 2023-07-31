@@ -136,6 +136,14 @@ INSERT INTO tipos_documentos(nombre) VALUES
 ('Cédula de extranjería'),
 ('Pasaporte');
 INSERT INTO indicativo_paises(nombre) VALUES('+57');
+
+INSERT INTO usuarios(nombre, apellido, id_genero, id_tipo_documento, numero_documento, fecha_nacimiento, correo_electronico, id_indicativo_pais, numero_celular, conductor, propietario) VALUES
+('Juan', 'Perez', 1, 1, '123456789', '1990-01-01', 'juanperez@gmail.com', 1, '123456789', 1, 1),
+('Maria', 'Perez', 2, 1, '123456789', '1990-01-01', 'mariaperez@gmail.com', 1, '123456789', 0, 1),
+('Pedro', 'Perez', 1, 1, '123456789', '1990-01-01', 'pedroperez@gmail.com', 1, '123456789', 1, 0),
+('Ana', 'Perez', 2, 1, '123456789', '1990-01-01', 'anaperez@gmail.com', 1, '123456789', 0, 0),
+('Luis', 'Perez', 1, 1, '123456789', '1990-01-01', 'luisperez@gmail.com', 1, '123456789', 1, 1);
+
 INSERT INTO tipos_vehiculos(nombre) VALUES ('Carro'), ('Moto');
 INSERT INTO marcas_vehiculos(nombre) VALUES
 ("Mazda"),
@@ -153,3 +161,41 @@ INSERT INTO tipos_combustible(nombre) VALUES
 ("Gas"),
 ("Eléctrico"),
 ("Híbrido");
+
+INSERT INTO vehiculos(id_tipos_vehiculo, id_marca_vehiculo, modelo, linea, placa, cap_pasajeros, id_propietario, id_tipo_combustible) VALUES
+(1, 1, 2020, 'Mazda 3', 'ABC123', 4, 1, 1),
+(1, 2, 2020, 'Spark', 'ABC123', 4, 2, 1),
+(1, 3, 2020, 'Swift', 'ABC123', 4, 3, 1),
+(1, 4, 2020, 'Duke', 'ABC123', 4, 4, 1),
+(1, 5, 2020, 'CBR', 'ABC123', 4, 5, 1),
+(1, 6, 2020, 'R15', 'ABC123', 4, 1, 1),
+(1, 7, 2020, 'A4', 'ABC123', 4, 2, 1),
+(1, 8, 2020, 'X5', 'ABC123', 4, 3, 1);
+
+INSERT INTO usuarios_conductores(id_usuario, id_vehiculo) VALUES
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4),
+(5, 5),
+(1, 6),
+(2, 7),
+(3, 8);
+
+INSERT INTO rutas(id_usuario_conductor, hora_inicio, hora_fin, kilometro_recorrido) VALUES
+(1, '2021-10-10T10:00:00', '2021-10-10T10:00:00', 0),
+(2, '2021-10-10T10:00:00', '2021-10-10T10:00:00', 0),
+(3, '2021-10-10T10:00:00', '2021-10-10T10:00:00', 0),
+(4, '2021-10-10T10:00:00', '2021-10-10T10:00:00', 0),
+(5, '2021-10-10T10:00:00', '2021-10-10T10:00:00', 0),
+(6, '2021-10-10T10:00:00', '2021-10-10T10:00:00', 0),
+(7, '2021-10-10T10:00:00', '2021-10-10T10:00:00', 0),
+(8, '2021-10-10T10:00:00', '2021-10-10T10:00:00', 0);
+
+INSERT INTO viajes(id_ruta, id_pasajero, hora_inicio, hora_fin, lugar_inicio, lugar_fin, precio, completado, comentario_pasajero, comentario_conductor, calificacion_pasajero, calificacion_conductor, kilometro_recorrido) VALUES
+(1, 2, '2021-10-10T10:00:00', '2021-10-10T10:00:00', 'Bucaramanga', 'Bucaramanga', 10000, 1, 'Comentario pasajero', 'Comentario conductor', 5, 5, 0),
+(2, 3, '2021-10-10T10:00:00', '2021-10-10T10:00:00', 'Bucaramanga', 'Bucaramanga', 10000, 1, 'Comentario pasajero', 'Comentario conductor', 5, 5, 0),
+(3, 4, '2021-10-10T10:00:00', '2021-10-10T10:00:00', 'Bucaramanga', 'Bucaramanga', 10000, 1, 'Comentario pasajero', 'Comentario conductor', 5, 5, 0),
+(4, 5, '2021-10-10T10:00:00', '2021-10-10T10:00:00', 'Bucaramanga', 'Bucaramanga', 10000, 1, 'Comentario pasajero', 'Comentario conductor', 5, 5, 0),
+(5, 1, '2021-10-10T10:00:00', '2021-10-10T10:00:00', 'Bucaramanga', 'Bucaramanga', 10000, 1, 'Comentario pasajero', 'Comentario conductor', 5, 5, 0),
+(6, 2, '2021-10-10T10:00:00', '2021-10-10T10:00:00', 'Bucaramanga', 'Bucaramanga', 10000, 1, 'Comentario pasajero', 'Comentario conductor', 5, 5, 0);
