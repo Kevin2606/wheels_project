@@ -10,12 +10,12 @@ CREATE TABLE rutas(
 );
 */
 import { Expose, Type, Transform } from 'class-transformer';
-import { IsDefined, MaxLength, MinLength, IsNumber, IsEmail, IsString, IsDateString, IsBoolean, Allow, IsNotEmpty } from 'class-validator';
+import { IsDefined, MaxLength, MinLength, IsNumber, IsEmail, IsString, IsDateString, IsBoolean, Allow, IsNotEmpty, IsInt } from 'class-validator';
 import { Consultas } from '../helpers/consultas.js';
 
 export class Ruta extends Consultas {
     @Expose({ name: 'usuario_conductor' })
-    @IsNumber({}, {message: ()=> { throw {status:406, message: "El formato del parametro es incorrecto: usuario_conductor"}}})
+    @IsInt({message: ()=> { throw {status:406, message: "El formato del parametro es incorrecto: usuario_conductor"}}})
     @IsNotEmpty({message: ()=>{throw {status:422, message: "Parametro obligatorio: usuario_conductor"}}})
     id_usuario_conductor: number;
 

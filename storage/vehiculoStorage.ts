@@ -48,12 +48,12 @@ export class Vehiculo extends Consultas {
     @Expose({ name: 'cap_pasajeros' })
     @IsNumber({}, {message: ()=> { throw {status:406, message: "El formato del parametro es incorrecto: cap_pasajeros"}}})
     @IsNotEmpty({message: ()=>{throw {status:422, message: "Parametro obligatorio: cap_pasajeros"}}})
-    cap_pasajeros: boolean;
+    cap_pasajeros: number;
 
     @Expose({ name: 'propietario' })
     @IsNumber({}, {message: ()=> { throw {status:406, message: "El formato del parametro es incorrecto: propietario"}}})
     @IsNotEmpty({message: ()=>{throw {status:422, message: "Parametro obligatorio: propietario"}}})
-    id_propietario: boolean;
+    id_propietario: number;
 
     @Expose({ name: 'tipo_combustible' })
     @IsNumber({}, {message: ()=> { throw {status:406, message: "El formato del parametro es incorrecto: tipo_combustible"}}})

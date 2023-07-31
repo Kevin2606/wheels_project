@@ -1,5 +1,5 @@
 import { Expose, Type, Transform } from 'class-transformer';
-import { IsDefined, MaxLength, MinLength, IsNumber, IsEmail, IsString, IsDateString, IsBoolean, Allow, IsNotEmpty } from 'class-validator';
+import { IsDefined, MaxLength, MinLength, IsNumber, IsEmail, IsString, IsDateString, IsBoolean, Allow, IsNotEmpty, IsInt } from 'class-validator';
 import { Consultas } from '../helpers/consultas.js';
 export class Usuario extends Consultas {
 /*
@@ -27,12 +27,12 @@ export class Usuario extends Consultas {
     apellido: string;
 
     @Expose({ name: 'genero' })
-    @IsNumber({}, {message: ()=> { throw {status:406, message: "El formato del parametro es incorrecto: genero"}}})
+    @IsInt({message: ()=> { throw {status:406, message: "El formato del parametro es incorrecto: genero"}}})
     @IsNotEmpty({message: ()=>{throw {status:422, message: "Parametro obligatorio: genero"}}})
     id_genero: number;
 
     @Expose({ name: 'tipo_documento' })
-    @IsNumber({}, {message: ()=> { throw {status:406, message: "El formato del parametro es incorrecto: tipo_documento"}}})
+    @IsInt({message: ()=> { throw {status:406, message: "El formato del parametro es incorrecto: tipo_documento"}}})
     @IsNotEmpty({message: ()=>{throw {status:422, message: "Parametro obligatorio: tipo_documento"}}})
     id_tipo_documento: number;
 
@@ -52,7 +52,7 @@ export class Usuario extends Consultas {
     correo_electronico: string;
 
     @Expose({ name: 'indicativo_pais' })
-    @IsNumber({}, {message: ()=> { throw {status:406, message: "El formato del parametro es incorrecto: indicativo_pais"}}})
+    @IsInt({message: ()=> { throw {status:406, message: "El formato del parametro es incorrecto: indicativo_pais"}}})
     @IsNotEmpty({message: ()=>{throw {status:422, message: "Parametro obligatorio: indicativo_pais"}}})
     id_indicativo_pais: number;
 

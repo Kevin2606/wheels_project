@@ -20,17 +20,17 @@ CREATE TABLE viajes(
 );
 */
 import { Expose, Type, Transform } from 'class-transformer';
-import { IsDefined, MaxLength, MinLength, IsNumber, IsEmail, IsString, IsDateString, IsBoolean, Allow, IsNotEmpty } from 'class-validator';
+import { IsDefined, MaxLength, MinLength, IsNumber, IsEmail, IsString, IsDateString, IsBoolean, Allow, IsNotEmpty, IsInt } from 'class-validator';
 import { Consultas } from '../helpers/consultas.js';
 
 export class Viaje extends Consultas {
     @Expose({ name: 'ruta' })
-    @IsNumber({}, {message: ()=> { throw {status:406, message: "El formato del parametro es incorrecto: ruta"}}})
+    @IsInt({message: ()=> { throw {status:406, message: "El formato del parametro es incorrecto: ruta"}}})
     @IsNotEmpty({message: ()=>{throw {status:422, message: "Parametro obligatorio: ruta"}}})
     id_ruta: number;
 
     @Expose({ name: 'pasajero' })
-    @IsNumber({}, {message: ()=> { throw {status:406, message: "El formato del parametro es incorrecto: pasajero"}}})
+    @IsInt({message: ()=> { throw {status:406, message: "El formato del parametro es incorrecto: pasajero"}}})
     @IsNotEmpty({message: ()=>{throw {status:422, message: "Parametro obligatorio: pasajero"}}})
     id_pasajero: number;
 
