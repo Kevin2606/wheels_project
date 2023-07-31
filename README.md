@@ -40,19 +40,22 @@ git clone https://github.com/Kevin2606/wheels_project.git
 npm install
 ```
 ### Configurar variables de entorno
-- Crear un archivo .env en la raiz del proyecto
-    ```bash
-    touch .env
-    ```
-> Una vez creado el archivo .env, accede a el desde un editor de texto
-- Agregar las siguientes variables de entorno
-    ```bash
-    SERVER_CONFIG={"hostname": "localhost", "port": 8080}
+Crear un archivo .env en la raiz del proyecto
+```bash
+touch .env
+```
+> Nota: Este comando solo funciona en sistemas operativos basados en Unix.
+> Si estas en Windows puedes crear el archivo .env desde el explorador de archivos
 
-    DB_CONFIG={"host": "localhost", "user": "", "password": "", "port": 3306, "database": "wheels_db"}
-    
-    JWT_SECRET="secret"
-    ```
+Una vez creado el archivo .env, accede a el desde un editor de texto
+Agregar las siguientes variables de entorno
+```bash
+SERVER_CONFIG={"hostname": "localhost", "port": 8080}
+
+DB_CONFIG={"host": "localhost", "user": "", "password": "", "port": 3306, "database": "wheels_db"}
+
+JWT_SECRET="secret"
+```
 > Nota: En el campo hostname y port de SERVER_CONFIG se recomienda en el hostname dejar el valor de "localhost" y en el port se puede cambiar a un puerto que no este en uso, por ejemplo 8080, 3000, 5000, etc. El rango de puertos disponibles es de 0 a 65535, se recomienda no utilizar los puertos reservados que van del 0 al 1023, para mas informacion sobre los puertos reservados [click aqui](https://es.wikipedia.org/wiki/Anexo:Puertos_de_red_utilizados_por_protocolos_de_transporte)
 >
 > Nota: En el campo user y password de DB_CONFIG se debe agregar el usuario y contraseña de la base de datos mysql, tambien tener en cuenta que el puerto de mysql por defecto es 3306, si se tiene configurado otro puerto se debe cambiar en el campo port de DB_CONFIG
@@ -80,13 +83,22 @@ En la siguiente imagen se muestra el resultado de ejecutar el comando anterior
 ![image](https://github.com/Kevin2606/wheels_project/assets/54305330/09e35c3c-6ea2-48de-b36b-626e6ad5b17c)
 
 ### Uso de la plataforma
-Para hacer uso de la plataforma se debe contar con herramientas informaticas para la realizacion de pruebas de api como **[Thunder Client](https://www.thunderclient.com/)** o **[Postman](https://www.postman.com/)**, ademas necesitas obtener un token de autenticacion, para esto se debe hacer una peticion GET a la ruta **/api/token** con la query tabla y especificar a que tabla se quiere hacer la peticion, las tablas disponibles son: **usuarios**, **vehiculos** y **usuarios-conductores**, el siguiente ejemplo muestra como obtener un token de autenticacion para la tabla usuarios.
+Para hacer uso de la plataforma se debe contar con herramientas informaticas para la realizacion de pruebas de api como **[Thunder Client](https://www.thunderclient.com/)** o **[Postman](https://www.postman.com/)**, ademas necesitas obtener un token de autenticacion, para esto se debe hacer una peticion GET a la ruta **/api/token** con la query tabla y especificar a que tabla se quiere hacer la peticion, las tablas disponibles son: **usuarios**, **vehiculos** y **usuarios-conductores**, **rutas**, **viajes**, el siguiente ejemplo muestra como obtener un token de autenticacion para la tabla usuarios.
 ```bash
 http://localhost:8080/api/token?tabla=usuarios
 ```
 
 En la siguiente imagen se muestra el resultado de ejecutar el comando anterior
 ![image](https://github.com/Kevin2606/wheels_project/assets/54305330/02321bd0-8e27-4cc1-85a3-341af59324c6)
+
+#### Query tabla
+| Tabla | Descripcion |
+| ----- | ----------- |
+| usuarios | Tabla que contiene los datos de los usuarios registrados en la plataforma |
+| vehiculos | Tabla que contiene los datos de los vehiculos registrados en la plataforma |
+| usuarios-conductores | Tabla que contiene los datos de los usuarios conductores registrados en la plataforma |
+| rutas | Tabla que contiene los datos de las rutas registradas en la plataforma |
+| viajes | Tabla que contiene los datos de los viajes registrados en la plataforma |
 
 > Nota: El token de autenticacion tiene una duracion de 1 hora, despues de ese tiempo se debe volver a solicitar un nuevo token.
 
@@ -115,20 +127,88 @@ Para hacer uso de la plataforma se debe hacer peticiones a las rutas disponibles
 | /api/usuarios-conductores/:id | GET | Obtiene un usuario conductor especifico por su id |
 | /api/usuarios-conductores/:id | PUT | Actualiza un usuario conductor especifico por su id |
 | /api/usuarios-conductores/:id | DELETE | Elimina un usuario conductor especifico por su id |
+| /api/rutas | GET | Obtiene todas las rutas registradas en la plataforma |
+| /api/rutas | POST | Registra una nueva ruta en la plataforma |
+| /api/rutas/:id | GET | Obtiene una ruta especifica por su id |
+| /api/rutas/:id | PUT | Actualiza una ruta especifica por su id |
+| /api/rutas/:id | DELETE | Elimina una ruta especifica por su id |
+| /api/viajes | GET | Obtiene todos los viajes registrados en la plataforma |
+| /api/viajes | POST | Registra un nuevo viaje en la plataforma |
+| /api/viajes/:id | GET | Obtiene un viaje especifico por su id |
+| /api/viajes/:id | PUT | Actualiza un viaje especifico por su id |
+| /api/viajes/:id | DELETE | Elimina un viaje especifico por su id |
+| /api/token | GET | Obtiene un token de autenticacion para hacer peticiones a las rutas de las tablas especificadas en la query tabla |
+
 
 > Nota: En los metodos POST de las rutas, estas esperan un valor requerido en el body de la peticion, en la siguiente tabla se muestran los valores requeridos para cada ruta.
+|
 
-| Ruta | Valores requeridos |
-| ---- | ------------------ |
-| /api/usuarios | nombre, apellido, genero, tipo_documento, numero_documento,  fecha_nacimiento, correo_electronico, indicativo_pais, numero_celular, conductor, propietario|
+#### Ruta - /api/usuarios
 
-| Ruta | Valores requeridos |
-| ---- | ------------------ |
-| /api/vehiculos | tipo_vehiculo, marca_vehiculo, modelo, linea, placa, cap_pasajeros, propietario, tipo_combustible|
+| Valores requeridos | Tipo de dato |
+| ------------------ | ------------ |
+| nombre | String |
+| apellido | String |
+| genero | Number |
+| tipo_documento | Number |
+| numero_documento | String |
+| fecha_nacimiento | Date |
+| correo_electronico | String |
+| indicativo_pais | Number |
+| numero_celular | String |
+| conductor | Boolean |
+| propietario | Boolean |
+> Nota: El tipo Date se debe enviar en el siguiente formato: YYYY-MM-DD
 
-| Ruta | Valores requeridos |
-| ---- | ------------------ |
-| /api/usuarios-conductores | usuario, vehiculo|
+#### Ruta - /api/vehiculos
+
+| Valores requeridos | Tipo de dato |
+| ------------------ | ------------ |
+| tipo_vehiculo | Number |
+| marca_vehiculo | Number |
+| modelo | Number |
+| linea | String |
+| placa | String |
+| cap_pasajeros | Number |
+| propietario | Number |
+| tipo_combustible | Number |
+
+#### Ruta - /api/usuarios-conductores
+
+| Valores requeridos | Tipo de dato |
+| ------------------ | ------------ |
+| usuario | Number |
+| vehiculo | Number |
+
+#### Ruta - /api/rutas
+
+| Valores requeridos | Tipo de dato |
+| ------------------ | ------------ |
+| usuario_conductor | Number |
+| hora_inicio | Date |
+| hora_fin | Date |
+| kilometro_recorrido | Number |
+> Nota: El tipo Date se debe enviar en el siguiente formato: YYYY-MM-DDTHH:mm:ss, ejemplo: 2021-10-10T10:00:00
+
+
+#### Ruta - /api/viajes
+
+| Valores requeridos | Tipo de dato |
+| ------------------ | ------------ |
+| ruta | Number |
+| pasajero | Number |
+| hora_inicio | Date |
+| hora_fin | Date |
+| lugar_inicio | String |
+| lugar_fin | String |
+| precio | Number |
+| completado | Boolean |
+| comentario_pasajero | String |
+| comentario_conductor | String |
+| calificacion_pasajero | Number |
+| calificacion_conductor | Number |
+| kilometro_recorrido | Number |
+> Nota: El tipo Date se debe enviar en el siguiente formato: YYYY-MM-DDTHH:mm:ss, ejemplo: 2021-10-10T10:00:00
 
 > Nota: En los metodos PUT de las rutas estas esperan solo el valor que se  desea actualizar, no es necesario enviar todos los valores de la tabla
 
@@ -146,9 +226,14 @@ Para hacer uso de la plataforma se debe hacer peticiones a las rutas disponibles
 - [x] Crear CRUD para la tabla usuarios
 - [x] Crear CRUD para la tabla vehiculos
 - [x] Crear CRUD para la tabla usuarios-conductores
-- [ ] Corregir errores en el codigo referente a las relaciones de las tablas
-- [ ] Crear CRUD para la tabla rutas
-- [ ] Crear CRUD para la tabla viajes
+- [x] Crear CRUD para la tabla rutas
+- [x] Crear CRUD para la tabla viajes
+- [ ] Implementar ORM que facilite la manipulacion de la base de datos TypeORM o Sequelize - **En progreso**
+- [ ] Corregir bugs en el codigo referente a las relaciones de las tablas - **En progreso**
+- [ ] Implementar triggers en la base de datos para actualizacion automatica de los datos de las tablas - **En progreso**
+- [x] Implementar autenticacion con JWT
+- [ ] Implementar autenticacion con OAuth2
+- [ ] Diseñar e implementar cliente visual para la plataforma
 - [ ] Pruebas unitarias 
 
 
